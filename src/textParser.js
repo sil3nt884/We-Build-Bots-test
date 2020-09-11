@@ -30,7 +30,7 @@ const splitTextIntoArray = (text) => {
 }
 
 const isName = (word, name) => {
-  return word.indexOf(name)
+  return word.indexOf(name) > -1
 }
 
 const createHash = (names) => {
