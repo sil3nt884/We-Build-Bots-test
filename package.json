@@ -13,9 +13,11 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "eslint": "^7.8.1",
     "express": "^4.17.1",
-    "nodemon": "^2.0.4",
+    "nodemon": "^2.0.4"
+  },
+  "devDependencies": {
+    "eslint": "^7.8.1",
     "standard": "^14.3.4"
   }
 }
