@@ -4,7 +4,6 @@ const main = async  () => {
 	const bodyParser = require('body-parser')
 	const app = express()
 	const indexRouter = require('./routers/index')
-	const path = require('path')
 	const textParser = require('./textParser')
 	await textParser.dataReady()
 
