@@ -40,9 +40,10 @@ const createHash = (names) => {
 }
 
 const secondCheckName = (word, hash, name) => {
+  console.log(hash)
   const isInHash = word in hash
   if (isInHash) {
-    return ''
+    return false
   } else {
     return name
   }
@@ -72,6 +73,8 @@ const checkForNames = (wordArray, names, namesHash) => {
             .split(/\s+/)
             .filter(w => w !== '')[0]
           return secondCheckName(nextWord, namesHash, name)
+        } else {
+          return name
         }
       }
     }))
