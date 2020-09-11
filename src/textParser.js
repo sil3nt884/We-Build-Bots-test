@@ -1,4 +1,6 @@
 const fsPromise = require('fs').promises;
+const Event = require('events');
+const eventEmitter = new Event()
 
 
 const getFilesNames = async (resourcePath) => {
@@ -15,18 +17,21 @@ const loadResources = async (files, resourcePath) => {
 
 const createNamesArray = async (firstNamesFile) => {
 	const names = await firstNamesFile;
-	return names.split('\n');
+	return names.split(/\n/);
 };
+
+/*
+  splitting on double lines here also
+		decreases the runtime by more than
+  half
+ */
 
 const splitTextIntoArray = (text) => {
 	return text.split(/\n/);
 };
 
-
-
 const isName = (word, name) => {
-	const regex = new RegExp(`\\b${name}\\b`,'g');
-	return word.match(regex)
+	return word.indexOf(name)
 };
 
 const createHash = (names) => {
@@ -106,14 +111,26 @@ const createNameCountJSON = (names) => {
 
 let namesCountObject
 const main = async () => {
-	const resourcePath = '../res';
+	const startTime = Date.now()
+	console.log('started')
+	const resourcePath = 'res';
 	const filesNames = await getFilesNames(resourcePath);
 	const files = await loadResources(filesNames, resourcePath);
 	const names = await createCollectionOfNames(files);
 	namesCountObject = createNameCountJSON(names)
+	eventEmitter.emit('name data ready')
+	console.log('data ready time', (Date.now() - startTime) / 1000.0)
 };
 main();
 
-module.exports = getNameCount = () => {
-	return namesCountObject
+const dataReady = () => {
+	return new Promise(resolve => {
+		eventEmitter.on('name data ready', () => {
+			resolve()
+		})
+	})
 }
+
+const getNameCount = () => namesCountObject
+
+module.exports = {dataReady, getNameCount }
